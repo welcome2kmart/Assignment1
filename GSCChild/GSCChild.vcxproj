@@ -154,6 +154,7 @@
     <ClInclude Include="..\..\rt.h" />
     <ClInclude Include="..\Assignment1\PumpDataPoolStruct.h" />
     <ClInclude Include="..\Assignment1\TankDataPoolStruct.h" />
+    <ClInclude Include="variables.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -32,5 +32,8 @@
     <ClInclude Include="..\Assignment1\TankDataPoolStruct.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="variables.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

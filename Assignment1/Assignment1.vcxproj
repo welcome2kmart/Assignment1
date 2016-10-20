@@ -149,12 +149,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\rt.cpp" />
+    <ClCompile Include="..\GSCChild\tankMonitor.cpp" />
     <ClCompile Include="A1Parent.cpp" />
     <ClCompile Include="CustomerClass.cpp" />
     <ClCompile Include="PumpClass.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\rt.h" />
+    <ClInclude Include="..\GSCChild\tankMonitor.h" />
+    <ClInclude Include="..\GSCChild\variables.h" />
     <ClInclude Include="CustomerClass.h" />
     <ClInclude Include="CustomerPumpPipeStruct.h" />
     <ClInclude Include="PumpClass.h" />

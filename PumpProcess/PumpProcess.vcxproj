@@ -149,6 +149,7 @@
     <ClCompile Include="..\..\rt.cpp" />
     <ClCompile Include="..\Assignment1\CustomerClass.cpp" />
     <ClCompile Include="..\Assignment1\PumpClass.cpp" />
+    <ClCompile Include="..\GSCChild\tankMonitor.cpp" />
     <ClCompile Include="pumps.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -15,7 +15,6 @@ Pump::~Pump() { }
 int Pump::main(void) {
 	// create pipe for communication between customer and pump
 	CPipe myPipe(pipeName, 1024);
-	printf("Pipe\n");
 
 	// create datapool for status communication between pump and GSC
 	CDataPool pumpPool("Datapool" + to_string(instance), sizeof(struct PumpDataPool));
@@ -23,18 +22,34 @@ int Pump::main(void) {
 	// create semaphores to implement producer/consumer with GSC
 	CSemaphore ps("ps" + to_string(instance), 0, 1);
 	CSemaphore cs("cs" + to_string(instance), 1, 1);
-	printf("Semaphores\n");
 
+	// create a monitor to communicate with tanks
+	tankMonitor *pumpMonitor = new tankMonitor();
+
+	// wait for tank status threads
+	//CRendezvous rTankThread("TankThreadRendezvous", NUM_PUMPS + 1); 
 
 	// send data to pump data pool
 	for (int j = 0; j < 10; j++)
 	{
 		cs.Wait();
 		myPumpDataPool->status = j;
-		printf("sent %d\n", j);
+		printf("Pump %d sent %d\n", instance, j);
 		ps.Signal();
 	}
 
+
+	printf("Pump %d the value of the tanks...\n", instance);
+	//rTankThread.Wait();
+	for (int j = 0; j < 50; j++)
+	{
+		for (int k = 0; k < NUM_FUELGRADES; k++)
+		{
+			pumpMonitor->Reduce(k, 10);
+			Sleep(50);
+		}
+
+	}
 
 	//
 	//Sleep(1000);

@@ -4,11 +4,13 @@
 #include "../GSCChild/variables.h"
 #include "PumpDataPoolStruct.h"
 #include "TankDataPoolStruct.h"
+#include "../GSCChild/tankMonitor.h"
 
 class Pump : public ActiveClass {
 private:
 	int instance;
 	struct CPpipe pumpPipeData;
+	
 	string pumpName;
 	string pipeName;
 	string poolName;

@@ -39,16 +39,18 @@ int Pump::main(void) {
 	}
 
 
-	printf("Pump %d the value of the tanks...\n", instance);
+	printf("Pump %d set the value of the tanks...\n", instance);
 	//rTankThread.Wait();
-	for (int j = 0; j < 50; j++)
+	for (int j = 0; j < 5; j++)
 	{
 		for (int k = 0; k < NUM_FUELGRADES; k++)
 		{
 			pumpMonitor->Reduce(k, 10);
+
 			Sleep(50);
 		}
 
+		printf("Pump %d reduce the value of the tanks %d...\n", instance, j);
 	}
 
 	//
@@ -62,6 +64,7 @@ int Pump::main(void) {
 	//printf("fuel request: %f\n", pumpPipeData.fuelReq);
 
 
+	printf("Pump %d return...\n", instance);
 
 	return 0;
 }

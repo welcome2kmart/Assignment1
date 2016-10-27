@@ -1,22 +1,15 @@
 #include "PumpClass.h"
-#include "PumpDataPoolStruct.h"
-#include "TankDataPoolStruct.h"
 
 // Pump standard constructor
-Pump::Pump(char newName[25], char newPipeName[25]) {
-	strcpy_s(pumpName, newName);
-	strcpy_s(pipeName, newPipeName);
-}
-
-// Pump default constructor 
-Pump::Pump() {
-
+Pump::Pump(int i) {
+	instance = i;
+	pumpName = "Pump" + to_string(instance);
+	pipeName = "Pipe" + to_string(instance);
+	poolName = "PumpPool" + to_string(instance);
 }
 
 // Pump destructor
-Pump::~Pump() {
-
-}
+Pump::~Pump() { }
 
 // Pump main
 int Pump::main(void) {
@@ -24,23 +17,54 @@ int Pump::main(void) {
 	CPipe myPipe(pipeName, 1024);
 
 	// create datapool for status communication between pump and GSC
-	CDataPool pumpPool("PumpPool1", sizeof(struct PumpDataPool));
+	CDataPool pumpPool("Datapool" + to_string(instance), sizeof(struct PumpDataPool));
 	struct PumpDataPool *myPumpDataPool = (struct PumpDataPool *)(pumpPool.LinkDataPool());
-	// create datapool for tank level communication to GSC
-	CDataPool tankPool("TankPool1", sizeof(struct TankDataPool));
-	struct PumpDataPool *myTankDataPool = (struct PumpDataPool *)(tankPool.LinkDataPool());
-	
-	Sleep(1000);
-	// test reading data sent from customer
-	myPipe.Read(&pumpPipeData, sizeof(pumpPipeData));
-	printf("%s read the following values from %s:\n", pumpName, pumpPipeData.pipeName);
-	printf("cust name: %s\n", pumpPipeData.custName);
-	printf("credit card: %d\n", pumpPipeData.creditcard);
-	printf("pipe name: %s\n", pumpPipeData.pipeName);
-	printf("fuel request: %f\n", pumpPipeData.fuelReq);
+	// create semaphores to implement producer/consumer with GSC
+	CSemaphore ps("ps" + to_string(instance), 0, 1);
+	CSemaphore cs("cs" + to_string(instance), 1, 1);
 
-	// test sending status to  pump datapool
-	myPumpDataPool->status = 1;
+	// create a monitor to communicate with tanks
+	tankMonitor *pumpMonitor = new tankMonitor();
+
+	// wait for tank status threads
+	//CRendezvous rTankThread("TankThreadRendezvous", NUM_PUMPS + 1); 
+
+	// send data to pump data pool
+	for (int j = 0; j < 10; j++)
+	{
+		cs.Wait();
+		myPumpDataPool->status = j;
+		printf("Pump %d sent %d\n", instance, j);
+		ps.Signal();
+	}
+
+
+	printf("Pump %d set the value of the tanks...\n", instance);
+	//rTankThread.Wait();
+	for (int j = 0; j < 5; j++)
+	{
+		for (int k = 0; k < NUM_FUELGRADES; k++)
+		{
+			pumpMonitor->Reduce(k, 10);
+
+			Sleep(50);
+		}
+
+		printf("Pump %d reduce the value of the tanks %d...\n", instance, j);
+	}
+
+	//
+	//Sleep(1000);
+	//// test reading data sent from customer
+	//myPipe.Read(&pumpPipeData, sizeof(pumpPipeData));
+	//printf("%s read the following values from %s:\n", pumpName, pumpPipeData.pipeName);
+	//printf("cust name: %s\n", pumpPipeData.custName);
+	//printf("credit card: %d\n", pumpPipeData.creditcard);
+	//printf("pipe name: %s\n", pumpPipeData.pipeName);
+	//printf("fuel request: %f\n", pumpPipeData.fuelReq);
+
+
+	printf("Pump %d return...\n", instance);
 
 	return 0;
 }

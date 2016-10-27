@@ -21,6 +21,9 @@
     <ClCompile Include="..\..\rt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="tankMonitor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\rt.h">
@@ -30,6 +33,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Assignment1\TankDataPoolStruct.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="variables.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tankMonitor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

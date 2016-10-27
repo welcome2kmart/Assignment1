@@ -1,18 +1,24 @@
 #pragma once
 #include "../../rt.h"
 #include "CustomerPumpPipeStruct.h"
+#include "../GSCChild/variables.h"
+#include "PumpDataPoolStruct.h"
+#include "TankDataPoolStruct.h"
+#include "../GSCChild/tankMonitor.h"
 
 class Pump : public ActiveClass {
 private:
+	int instance;
 	struct CPpipe pumpPipeData;
-	char pumpName[25];
-	char pipeName[25];
+	
+	string pumpName;
+	string pipeName;
+	string poolName;
 	int main(void);
 
 public:
 	// constructors
-	Pump(char newName[], char newPipeName[]);
-	Pump();
+	Pump(int instance);
 
 	// destructor
 	~Pump();

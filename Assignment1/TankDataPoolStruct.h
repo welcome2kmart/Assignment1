@@ -1,6 +1,5 @@
 #pragma once
 
 struct TankDataPool {
-	double capacity;
-
+	double capacity[4];
 };

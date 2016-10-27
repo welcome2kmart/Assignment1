@@ -149,11 +149,14 @@
   <ItemGroup>
     <ClCompile Include="..\..\rt.cpp" />
     <ClCompile Include="GSCChild.cpp" />
+    <ClCompile Include="tankMonitor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\rt.h" />
     <ClInclude Include="..\Assignment1\PumpDataPoolStruct.h" />
     <ClInclude Include="..\Assignment1\TankDataPoolStruct.h" />
+    <ClInclude Include="tankMonitor.h" />
+    <ClInclude Include="variables.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

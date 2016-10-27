@@ -1,9 +1,10 @@
 #include "../Assignment1/CustomerClass.h"
 #include "../Assignment1/PumpDataPoolStruct.h"
 #include "../Assignment1/PumpClass.h"
+#include "../GSCChild/variables.h"
 
 UINT __stdcall pumpIO(void *args) {
-	// implement io for pumps here - consumer for producer that is the pumps
+	// implement io for pumps here - consumer for producer that is the pumps customer data
 
 	return 0;
 }
@@ -11,26 +12,27 @@ UINT __stdcall pumpIO(void *args) {
 
 int main(void){
 	// create rendevous to wait for all processes
-	CRendezvous r1("MyRendezvous", 3);
-	r1.Wait();
-	printf("Pumps passed rendezvous\n");
-
+	CRendezvous r1("MyRendezvous", NUM_PROCESSES);
+	
 	// create pump active objects
-	Pump pump1("Pump1", "pipe1");
-	Pump pump2("Pump2", "pipe2");
-	Pump pump3("Pump3", "pipe3");
-	Pump pump4("Pump4", "pipe4");
+	Pump *pumps[NUM_PUMPS];
+	for (int i = 0; i < NUM_PUMPS; i++)
+	{
+		pumps[i] = new Pump(i);
+		pumps[i]->Resume();
+	}
 
-	pump1.Resume();
-	pump2.Resume();
-	pump3.Resume();
-	pump4.Resume();
+	// signal main processes rendezvous that the processs is initialized
+	r1.Wait();
+	printf("Pumps passed main process rendezvous\n");
 
+	// wait for pumps to complete
+	for (int i = 0; i < NUM_PUMPS; i++)
+	{
 
-	pump1.WaitForThread();
-	pump2.WaitForThread();
-	pump3.WaitForThread();
-	pump4.WaitForThread();
+		printf("Waiting for %d\n", i);
+		pumps[i]->WaitForThread();
+	}
 
 	system("Pause");
 	return 0;
